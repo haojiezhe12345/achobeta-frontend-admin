@@ -6,10 +6,14 @@ export default defineNuxtRouteMiddleware((to) => {
   const { token } = userStore
 
   if (to.path === '/login') {
-    if (token)
+    if (token) {
+      message.error('请先退出登录')
       return navigateTo('/')
+    }
   } else {
-    if (!token)
+    if (!token) {
+      message.error('请先登录')
       return navigateTo('/login')
+    }
   }
 })

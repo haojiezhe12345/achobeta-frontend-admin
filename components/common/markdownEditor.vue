@@ -1,16 +1,4 @@
 <script setup>
-const props = defineProps({
-  modelValue: {
-    type: String,
-    default: '',
-    required: true,
-  },
-})
-
-const emits = defineEmits(['update:modelValue'])
-
-const localValue = ref(props.modelValue)
-
 const toolbarsOptions = {
   bold: true, // 粗体
   italic: true, // 斜体
@@ -37,26 +25,30 @@ const toolbarsOptions = {
   preview: true, // 预览
 }
 
-const handleChange = (value) => {
-  localValue.value = value
-  emits('update:modelValue', value)
-}
+const model = defineModel({ type: String })
+// const props = defineProps({
+//   modelValue: {
+//     type: String,
+//     default: '',
+//     required: true,
+//   },
+// })
+// const emits = defineEmits(['update:modelValue'])
+// const localValue = ref(props.modelValue)
 
-watch(() => props.modelValue, (newVal) => {
-  localValue.value = newVal
-})
+// const handleChange = (value) => {
+//   localValue.value = value
+//   emits('update:modelValue', value)
+// }
 </script>
 
 <template>
   <ClientOnly>
     <mavon-editor
       v-bind="$attrs"
-      v-model="localValue"
+      v-model="model"
       :toolbars="toolbarsOptions"
       :subfield="false"
-      @change="handleChange"
     />
   </ClientOnly>
 </template>
-
-<style scoped></style>

@@ -193,6 +193,9 @@ packages:
   '@antfu/install-pkg@0.3.3':
     resolution: {integrity: sha512-nHHsk3NXQ6xkCfiRRC8Nfrg8pU5kkr3P3Y9s9dKqiuRmBD0Yap7fymNDjGFKeWhZQHqqbCS5CfeMy9wtExM24w==}
 
+  '@antfu/utils@0.7.10':
+    resolution: {integrity: sha512-+562v9k4aI80m1+VuMHehNJWLOFjBnXn3tdOitzD0il5b7smkSBal4+a3oKiQTbrwMmN/TBUMDvbdoWDehgOww==}
+
   '@antfu/utils@0.7.8':
     resolution: {integrity: sha512-rWQkqXRESdjXtc+7NRfK9lASQjpXJu1ayp7qi1d23zZorY+wBHVLHHoVcMsEnkqEBWTFqbztO7/QdJFzyEcLTg==}
 
@@ -1136,6 +1139,15 @@ packages:
 
   '@rollup/pluginutils@5.1.0':
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+
+  '@rollup/pluginutils@5.1.3':
+    resolution: {integrity: sha512-Pnsb6f32CD2W3uCaLZIzDmeFyQ2b8UWMFI7xtwUezpcGBDVDW6y9XgAWIlARiGAo6eNF5FK5aQTr0LFyNyqq5A==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -2295,6 +2307,15 @@ packages:
 
   debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@4.4.0:
+    resolution: {integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -5493,6 +5514,8 @@ snapshots:
     dependencies:
       '@jsdevtools/ez-spawn': 3.0.4
 
+  '@antfu/utils@0.7.10': {}
+
   '@antfu/utils@0.7.8': {}
 
   '@babel/code-frame@7.24.2':
@@ -5880,7 +5903,7 @@ snapshots:
   '@es-joy/jsdoccomment@0.43.0':
     dependencies:
       '@types/eslint': 8.56.10
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
       '@typescript-eslint/types': 7.8.0
       comment-parser: 1.4.1
       esquery: 1.5.0
@@ -6055,9 +6078,9 @@ snapshots:
   '@iconify/utils@2.1.23':
     dependencies:
       '@antfu/install-pkg': 0.1.1
-      '@antfu/utils': 0.7.8
+      '@antfu/utils': 0.7.10
       '@iconify/types': 2.0.0
-      debug: 4.3.4
+      debug: 4.4.0
       kolorist: 1.8.0
       local-pkg: 0.5.0
       mlly: 1.7.1
@@ -6732,9 +6755,17 @@ snapshots:
 
   '@rollup/pluginutils@5.1.0(rollup@4.17.2)':
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
       estree-walker: 2.0.2
       picomatch: 2.3.1
+    optionalDependencies:
+      rollup: 4.17.2
+
+  '@rollup/pluginutils@5.1.3(rollup@4.17.2)':
+    dependencies:
+      '@types/estree': 1.0.6
+      estree-walker: 2.0.2
+      picomatch: 4.0.2
     optionalDependencies:
       rollup: 4.17.2
 
@@ -6887,7 +6918,7 @@ snapshots:
 
   '@types/eslint@8.56.10':
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
       '@types/json-schema': 7.0.15
 
   '@types/estree@1.0.5': {}
@@ -7048,7 +7079,7 @@ snapshots:
   '@unocss/cli@0.59.4(rollup@4.17.2)':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@rollup/pluginutils': 5.1.0(rollup@4.17.2)
+      '@rollup/pluginutils': 5.1.3(rollup@4.17.2)
       '@unocss/config': 0.59.4
       '@unocss/core': 0.59.4
       '@unocss/preset-uno': 0.59.4
@@ -7175,7 +7206,7 @@ snapshots:
   '@unocss/vite@0.59.4(rollup@4.17.2)(vite@5.2.11(@types/node@20.12.10)(less@4.2.0)(terser@5.31.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@rollup/pluginutils': 5.1.0(rollup@4.17.2)
+      '@rollup/pluginutils': 5.1.3(rollup@4.17.2)
       '@unocss/config': 0.59.4
       '@unocss/core': 0.59.4
       '@unocss/inspector': 0.59.4
@@ -8116,6 +8147,10 @@ snapshots:
     dependencies:
       ms: 2.1.2
 
+  debug@4.4.0:
+    dependencies:
+      ms: 2.1.3
+
   deep-is@0.1.4: {}
 
   deep-pick-omit@1.2.0: {}
@@ -8593,7 +8628,7 @@ snapshots:
 
   estree-walker@3.0.3:
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
 
   esutils@2.0.3: {}
 
@@ -9160,7 +9195,7 @@ snapshots:
 
   is-reference@1.2.1:
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
 
   is-ssh@1.4.0:
     dependencies:
@@ -11050,7 +11085,7 @@ snapshots:
 
   unconfig@0.3.13:
     dependencies:
-      '@antfu/utils': 0.7.8
+      '@antfu/utils': 0.7.10
       defu: 6.1.4
       jiti: 1.21.6
 
