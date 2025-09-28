@@ -47,15 +47,26 @@ export default defineNuxtConfig({
     server: {
       // 开发环境解决跨域问题
       proxy: {
-        '/api': {
-          target: process.env[`PROXY_TARTGET_PATH_${currentEnv?.toUpperCase()}`],
-          changeOrigin: true,
-          rewrite: (path: string) => path.replace(/^\/api/, '/api'),
-        },
+        // '/api': {
+        //   target: process.env[`PROXY_TARTGET_PATH_${currentEnv?.toUpperCase()}`],
+        //   changeOrigin: true,
+        //   rewrite: (path: string) => path.replace(/^\/api/, '/api'),
+        // },
       },
     },
     esbuild: {
       pure: ['console.log', 'debugger'],
+    },
+  },
+  nitro: {
+    routeRules: {
+      // Proxy requests from /api/** to myapiserver.com/**
+      '/api/**': {
+        proxy: 'http://117.50.198.118:9001/api/**',
+        // Note: use 'https://myapiserver.com/**' to preserve the path segments 
+        // after /api/ when forwarding.
+        // For example: localhost:3000/api/users -> myapiserver.com/users
+      },
     },
   },
   plugins: [
