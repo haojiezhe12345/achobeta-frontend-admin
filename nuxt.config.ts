@@ -25,6 +25,9 @@ export default defineNuxtConfig({
       API_BASE_PATH: process.env[`API_BASE_PATH_${currentEnv?.toUpperCase()}`],
     },
   },
+  // build:{
+  //   analyze: true
+  // },
   devtools: { enabled: true },
   modules: [
     '@pinia/nuxt',
@@ -54,6 +57,10 @@ export default defineNuxtConfig({
         // },
       },
     },
+    // define: {
+    //   "__VUE_OPTIONS_API__": false
+
+    // },
     esbuild: {
       pure: ['console.log', 'debugger'],
     },
@@ -63,7 +70,7 @@ export default defineNuxtConfig({
       // Proxy requests from /api/** to myapiserver.com/**
       '/api/**': {
         proxy: 'http://117.50.198.118:9001/api/**',
-        // Note: use 'https://myapiserver.com/**' to preserve the path segments 
+        // Note: use 'https://myapiserver.com/**' to preserve the path segments
         // after /api/ when forwarding.
         // For example: localhost:3000/api/users -> myapiserver.com/users
       },
@@ -74,5 +81,4 @@ export default defineNuxtConfig({
     { src: '@/plugins/vue-mavon-editor', mode: 'client' },
   ],
   ssr: false,
-  compatibilityDate: '2024-10-17',
 })

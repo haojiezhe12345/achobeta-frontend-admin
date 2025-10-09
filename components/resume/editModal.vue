@@ -2,17 +2,17 @@
 import { getResumeAdminApi } from '~/api/resume'
 import type { ResumeRequest } from '~/api/resume/types'
 import { getResumeEventsApi } from '~/api/resumeStatus'
-import { useAvatar } from '~/utils/user'
+import { PATH_URL } from '~/axios/service'
 import { RESUME_STATUES } from '~/constants/resume'
 
-interface eventType {
+interface EventType {
   event: number
   description: string
 }
 
 const resumeData = ref()
 const open = ref(false)// 控制弹窗显示
-const eventList = ref<eventType[]>([])// 事件列表
+const eventList = ref<EventType[]>([])// 事件列表
 const resumeId = ref()
 const userId = ref()
 const batchId = ref()
@@ -41,8 +41,61 @@ const getresumeEvent = async () => {
     message.error(res.message)
 }
 
-const handleDownload = (url: string) => {
-  window.open(url)
+const handleDownload = async (item: Record<string, any>) => {
+  const { attachment, filename } = item
+
+  if (shouldPreviewInBrowser(filename)) {
+    // 使用预览接口
+    window.open(`${PATH_URL}/api/v1/resource/preview/${attachment}`, '_blank')
+  } else {
+    // 使用下载接口
+    window.open(`${PATH_URL}/api/v1/resource/download/${attachment}`, '_blank')
+  }
+}
+
+/**
+ * 根据文件后缀判断是否应该在浏览器中预览
+ */
+function shouldPreviewInBrowser(filename: string): boolean {
+  if (!filename)
+    return false
+
+  const extension = filename.toLowerCase().split('.').pop()
+
+  // 浏览器可直接预览的文件类型
+  const previewableExtensions = [
+    // 文档类
+    'pdf',
+    // 图片类
+    'jpg',
+    'jpeg',
+    'png',
+    'gif',
+    'webp',
+    'bmp',
+    'svg',
+    'ico',
+    // 文本类
+    'txt',
+    'log',
+    'md',
+    'json',
+    'xml',
+    'html',
+    'htm',
+    'css',
+    'js',
+    // 音视频类
+    'mp3',
+    'wav',
+    'ogg',
+    'mp4',
+    'webm',
+    'ogg',
+    'mov',
+  ]
+
+  return previewableExtensions.includes(extension || '')
 }
 
 const getResumeDetail = async () => {
@@ -59,11 +112,10 @@ const getResumeDetail = async () => {
   const res = await getResumeAdminApi(data)
   if (res.code === 200) {
     resumeData.value = res.data
-    const { avatar: imageUrl, loading: imgLoading } = useAvatar(res.data.stuSimpleResumeVO.image)
+    const { avatar: imageUrl, loading: imgLoading } = useAvatar(+res.data.stuSimpleResumeVO.image)
     avatarSrc = imageUrl
     avatarLoading = imgLoading
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -211,7 +263,7 @@ defineExpose({
                 <a-button
                   type="link"
                   class="ml-2"
-                  @click="handleDownload(item.attachment)"
+                  @click="handleDownload(item)"
                 >
                   {{ item.filename
                   }}
