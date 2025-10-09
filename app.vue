@@ -2,6 +2,7 @@
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
+import { storeToRefs } from 'pinia'
 import { useThemeStore } from '~/stores'
 
 const themeStore = useThemeStore()

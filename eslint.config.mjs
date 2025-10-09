@@ -1,6 +1,8 @@
 import antfu from '@antfu/eslint-config'
 
 export default antfu({
+  // 确保包含 TypeScript 文件
+  typescript: true,
   rules: {
     // 不允许使用tab缩进，vscode可以自行配置Tab键是使用\t还是空格填充
     'no-tabs': ['warn', {

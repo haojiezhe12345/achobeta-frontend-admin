@@ -42,3 +42,6 @@ export const TRANSFORM_REQUEST_DATA = true
  * 全局图标前缀
  */
 // export const ICON_PREFIX = 'vi-'
+
+// 导出菜单常量
+export * from './menu'
