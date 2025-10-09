@@ -40,24 +40,23 @@ async function login() {
       // 增加密码存储
       const updatedUserInfo = {
         ...res.data, // 复制res.data中的所有属性
+        avatar: res.data?.avatar == null ? null : String(res.data.avatar),
         password: inputPassword.value, // 添加密码属性
       }
       // 存储更新后的用户信息
-      userStore.setUserInfo(updatedUserInfo as any)
+      userStore.setUserInfo(updatedUserInfo)
     })
     if (unref(remember)) {
       userStore.setLoginInfo({
         username: inputUsername.value,
         password: inputPassword.value,
       })
-    }
-    else {
+    } else {
       userStore.setLoginInfo({ password: '', username: '' })
     }
 
     router.push('/')
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -138,6 +137,7 @@ onMounted(() => {
         </svg>
         <input
           v-model="inputPassword"
+          autocomplete="true"
           type="password"
           class="input"
           placeholder="请输入密码"

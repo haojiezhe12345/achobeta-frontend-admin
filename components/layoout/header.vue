@@ -53,7 +53,7 @@ const menuList = [...menueStore.menuList.value, ...menueStore.otherMenuList.valu
     <!-- 消息栏 -->
     <div class="flex-none hidden md:flex ">
       <!-- 搜索框 -->
-      <label class="input input-bordered flex items-center gap-2 mr-8 ">
+      <!-- <label class="input input-bordered flex items-center gap-2 mr-8 ">
         <input
           type="text"
           class="grow"
@@ -71,40 +71,32 @@ const menuList = [...menueStore.menuList.value, ...menueStore.otherMenuList.valu
             clip-rule="evenodd"
           />
         </svg>
-      </label>
+      </label> -->
       <!-- 通知项 -->
-      <!-- 文件 -->
-      <div class="indicator mx-4 mt-2 hover:scale-105 ">
-        <span class="indicator-item badge badge-primary badge-sm">2</span>
-        <div class="grid w-10 h-10 rounded-full  place-items-center">
-          <i class="fa-solid fa-folder-open fa-xl text-[#a6adbb]" />
-        </div>
-      </div>
       <!-- 信息 -->
-      <div class="indicator mx-4 mt-2 hover:scale-105 ">
+      <!-- <div class="indicator mx-4 mt-2 hover:scale-105 ">
         <span class="indicator-item badge badge-secondary badge-sm">10</span>
         <div class="grid w-10 h-10 rounded-full  place-items-center">
           <i class="fa-solid fa-envelope fa-xl text-[#a6adbb]" />
         </div>
-      </div>
+      </div> -->
       <!-- 通知 -->
-      <div class="indicator mx-4 mt-2 hover:scale-105 ">
+      <!-- <div class="indicator mx-4 mt-2 hover:scale-105 ">
         <span class="indicator-item badge badge-error  badge-sm">99+</span>
         <div class="grid w-10 h-10 rounded-full  place-items-center">
           <i class="fa-solid fa-bell fa-xl text-[#a6adbb]" />
         </div>
-      </div>
+      </div> -->
       <!-- 主题切换 -->
-      <label class="swap swap-rotate mr-4  ml-6">
+      <!-- <label class="swap swap-rotate mr-4  ml-6">
 
-        <!-- this hidden checkbox controls the state -->
         <input
           type="checkbox"
           class="theme-controller"
-          value="black"
+          :checked="theme === 'light'"
+          @input="changeTheme"
         >
 
-        <!-- sun icon -->
         <svg
           class="swap-off fill-current w-10 h-10"
           xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +107,6 @@ const menuList = [...menueStore.menuList.value, ...menueStore.otherMenuList.valu
           />
         </svg>
 
-        <!-- moon icon -->
         <svg
           class="swap-on fill-current w-10 h-10"
           xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +116,7 @@ const menuList = [...menueStore.menuList.value, ...menueStore.otherMenuList.valu
             d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"
           />
         </svg>
-      </label>
+      </label> -->
     </div>
   </header>
 </template>

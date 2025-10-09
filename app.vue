@@ -1,10 +1,24 @@
 <script setup lang="ts">
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+import { storeToRefs } from 'pinia'
+import { useThemeStore } from '~/stores'
+
+const themeStore = useThemeStore()
+const { theme } = storeToRefs(themeStore)
+
+dayjs.locale('zh')
 </script>
 
 <template>
-  <div>
+  <html :data-theme="theme">
     <ClientOnly>
-      <NuxtPage />
+      <a-config-provider :locale="zhCN">
+        <NuxtLayout>
+          <NuxtPage />
+        </NuxtLayout>
+      </a-config-provider>
     </ClientOnly>
-  </div>
+  </html>
 </template>

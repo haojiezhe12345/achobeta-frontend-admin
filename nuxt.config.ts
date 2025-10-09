@@ -25,6 +25,9 @@ export default defineNuxtConfig({
       API_BASE_PATH: process.env[`API_BASE_PATH_${currentEnv?.toUpperCase()}`],
     },
   },
+  // build:{
+  //   analyze: true
+  // },
   devtools: { enabled: true },
   modules: [
     '@pinia/nuxt',
@@ -54,6 +57,10 @@ export default defineNuxtConfig({
         },
       },
     },
+    // define: {
+    //   "__VUE_OPTIONS_API__": false
+
+    // },
     esbuild: {
       pure: ['console.log', 'debugger'],
     },
@@ -63,5 +70,4 @@ export default defineNuxtConfig({
     { src: '@/plugins/vue-mavon-editor', mode: 'client' },
   ],
   ssr: false,
-  compatibilityDate: '2024-10-17',
 })
