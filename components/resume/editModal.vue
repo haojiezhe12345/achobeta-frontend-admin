@@ -2,6 +2,7 @@
 import { getResumeAdminApi } from '~/api/resume'
 import type { ResumeRequest } from '~/api/resume/types'
 import { getResumeEventsApi } from '~/api/resumeStatus'
+import { PATH_URL } from '~/axios/service'
 import { RESUME_STATUES } from '~/constants/resume'
 
 interface EventType {
@@ -45,10 +46,10 @@ const handleDownload = async (item: Record<string, any>) => {
 
   if (shouldPreviewInBrowser(filename)) {
     // 使用预览接口
-    window.open(`/api/v1/resource/preview/${attachment}`, '_blank')
+    window.open(`${PATH_URL}/api/v1/resource/preview/${attachment}`, '_blank')
   } else {
     // 使用下载接口
-    window.open(`/api/v1/resource/download/${attachment}`, '_blank')
+    window.open(`${PATH_URL}/api/v1/resource/download/${attachment}`, '_blank')
   }
 }
 
