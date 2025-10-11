@@ -3,6 +3,11 @@ import { SmileOutlined } from '@ant-design/icons-vue'
 import { getColor } from './utils'
 import { getResumeStatusApi } from '~/api/resumeStatus'
 
+interface ResumeStatus {
+  code: number
+  message: string
+}
+
 const props = defineProps({
   data: {
     type: Array,
@@ -19,10 +24,10 @@ const props = defineProps({
   },
 })
 const childModal = ref<any | null>(null)// 子组件的引用
-const stateList = ref()
+const stateList = ref<ResumeStatus[]>()
 const columnData = ref(computed(() => props.data))
 
-const columns = [
+const columns = computed(() => [
   {
     name: '姓名',
     dataIndex: 'name',
@@ -62,9 +67,18 @@ const columns = [
   },
   {
     title: '简历状态',
-    key: 'tags',
+    key: 'status',
     dataIndex: 'status',
-    width: 100,
+    width: 140,
+    // 添加筛选功能
+    filters: stateList.value
+      ? stateList.value.map((item: any) => ({
+        text: item.message,
+        value: item.code,
+      }))
+      : [],
+    onFilter: (value: string | number | boolean, record: any) => record.status === Number(value),
+    filterMultiple: true,
   },
   {
     title: '用户名',
@@ -80,6 +94,7 @@ const columns = [
     title: '简历',
     key: 'resume',
     dataIndex: 'resumeId',
+    width: 150,
   },
   {
     title: '操作',
@@ -87,7 +102,7 @@ const columns = [
     width: 120,
     fixed: 'right',
   },
-]
+])
 
 const getresumeStatus = async () => {
   const res = await getResumeStatusApi()
@@ -148,6 +163,14 @@ onMounted(() => {
           >
             查看简历
           </a-button>
+        </template>
+
+        <template v-else-if="column.key === 'status'">
+          <span>
+            <a-tag :color="getColor(record.status)">
+              {{ stateList?.find(item => item.code === record.status)?.message || record.status }}
+            </a-tag>
+          </span>
         </template>
 
         <template v-else-if="column.key === 'tags'">
