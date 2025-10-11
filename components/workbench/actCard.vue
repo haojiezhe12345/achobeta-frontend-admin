@@ -21,13 +21,7 @@ const getBatch = async () => {
   loading.value = true
   const res = await getBatchListAdminApi()
   if (res.code === 200) {
-    batchList.value = [...res.data, {
-      id: 2,
-      batch: 7,
-      title: 'AchoBeta 7.0 招新',
-      deadline: '2024-11-25 23:59:59',
-      isRun: true,
-    }]
+    batchList.value = [...res.data]
     selectedBatchId.value = batchList.value[0].id
   } else {
     message.error(res.message)

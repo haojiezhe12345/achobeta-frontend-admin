@@ -158,9 +158,23 @@ const changeActicityStatu = async () => {
 
 const openPaperModal = async () => {
   getPaperBank()
+
+  // 如果paperId为null，直接显示弹窗，不获取试卷详情
+  if (props.data?.paperId === null) {
+    paperVisible.value = true
+    return
+  }
+
+  // 否则获取试卷详情进行回显
   const res = await getExamPaperDetailApi(String(props.data?.paperId))
   if (res.code === 200) {
     paperFormState.paperId = res.data.id
+
+    // 需要根据试卷信息设置paperBankId
+    // 这里需要先获取试卷所属的试卷库ID，然后设置paperFormState.paperBankId
+    // 由于API没有直接返回试卷库ID，需要从paperBank中查找匹配的试卷库
+
+    // 将试卷添加到paperList中
     paperList.value.push({
       createTime: '',
       description: '',
@@ -171,6 +185,17 @@ const openPaperModal = async () => {
       value: res.data.id,
       key: res.data.id,
     })
+
+    // 尝试设置paperBankId
+    if (res.data.types && res.data.types.length > 0) {
+      const paperBankType = res.data.types[0].libType
+      const matchedBank = paperBank.value.find((bank: any) => bank.libType === paperBankType)
+      if (matchedBank) {
+        paperFormState.paperBankId = matchedBank.id
+        // 获取该试卷库下的所有试卷
+        getPaper(matchedBank.id)
+      }
+    }
   } else {
     message.error(res.message)
   }
@@ -284,29 +309,46 @@ const updateTimeRange = () => {
         if (item.key > 1000000) {
           const condition = {
             actId: Number(props.data?.id),
-            startTime: new Date(item.value[0].$d).getTime(),
-            endTime: new Date(item.value[1].$d).getTime(),
+            startTime: dayjs(item.value[0]).valueOf(),
+            endTime: dayjs(item.value[1]).valueOf(),
           }
           request.push(addActivityPeriodApi(condition))
-
-          Promise.all(request)
-            .then((values) => {
-              values.forEach((item) => {
-                if (item.code === 200)
-                  message.success('设置成功')
-                else
-                  message.error(item.message)
-              })
-              getTimeRange()
-            })
-            .catch(() => message.error('设置失败'))
-            .finally(() => loading.value = false)
         }
       })
+
+      // 如果没有需要添加的时间段，直接结束loading并关闭弹窗
+      if (request.length === 0) {
+        loading.value = false
+        timeVisible.value = false
+        return
+      }
+
+      Promise.all(request)
+        .then((values) => {
+          values.forEach((item) => {
+            if (item.code === 200)
+              message.success('设置成功')
+            else
+              message.error(item.message)
+          })
+          getTimeRange()
+        })
+        .catch(() => message.error('设置失败'))
+        .finally(() => loading.value = false)
     })
     .catch((error) => {
       console.log('error', error)
+      loading.value = false
     })
+}
+
+// 设置结束时间为开始时间加上指定分钟数
+const setEndTime = (domain: Domain, minutes: number) => {
+  if (domain.value && domain.value[0]) {
+    const startTime = dayjs(domain.value[0])
+    const endTime = startTime.add(minutes, 'minute')
+    domain.value = [startTime, endTime]
+  }
 }
 
 const getTimeRange = async () => {
@@ -581,6 +623,37 @@ defineExpose({
             class="dynamic-delete-button"
             @click="removeTimeRange(domain)"
           />
+          <div
+            v-if="!domain.disabled"
+            style="margin-top: 8px;"
+          >
+            <a-space>
+              <a-button
+                size="small"
+                @click="() => setEndTime(domain, 30)"
+              >
+                +30分钟
+              </a-button>
+              <a-button
+                size="small"
+                @click="() => setEndTime(domain, 60)"
+              >
+                +1小时
+              </a-button>
+              <a-button
+                size="small"
+                @click="() => setEndTime(domain, 90)"
+              >
+                +1.5小时
+              </a-button>
+              <a-button
+                size="small"
+                @click="() => setEndTime(domain, 120)"
+              >
+                +2小时
+              </a-button>
+            </a-space>
+          </div>
         </a-form-item>
         <a-form-item :wrapper-col="{ span: 24 }">
           <a-button

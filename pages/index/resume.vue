@@ -17,10 +17,9 @@ const batchList = ref([
   },
 
 ])
-const tabValue = ref(batchList.value[0].value)// 默认显示第一个批次
-const tabledata = ref<ResumeData[]>([
-])// 表格数据
-const drawData = ref<DataItem[]>()// 抽屉数据
+const tabValue = ref(batchList.value[0].value) // 默认显示第一个批次
+const tabledata = ref<ResumeData[]>([]) // 表格数据
+const drawData = ref<DataItem[]>() // 抽屉数据
 const mangerbatch = () => {
   // 调用子组件的方法展开
   childRef.value.showDrawer()
@@ -47,8 +46,9 @@ const getbatchlist = async () => {
   tabValue.value = batchList.value[0].value
 
   // 获取表格数据
-  if (drawData.value) {
-    getBatchStudentResumeApi(drawData.value[0].id).then((res) => {
+  if (drawData.value && drawData.value.length > 0) {
+    const firstBatchId = drawData.value[0].id
+    getBatchStudentResumeApi(firstBatchId).then((res) => {
       tabledata.value = res.data.map((item: any) => ({
         resumeId: item.resumeId,
         userId: item.userId,

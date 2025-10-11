@@ -7,10 +7,10 @@ import { RESUME_STATUES } from '~/constants/resume'
 const loading = ref(false)
 const sendLoading = ref(false)
 const batchList = ref<any[]>([])
-const gradeList = ref<any[]>(Array.from({ length: 15 }).fill(2018).map((item, index) => item + index))
+const gradeList = ref<any[]>(Array.from({ length: 15 }).fill(2018).map((item: any, index: number) => item + index))
 const nameList = ref<any>([])
 const formState = reactive({
-  userIds: undefined,
+  userIds: [] as any[],
   title: '',
   content: '',
   file: undefined,
@@ -25,6 +25,15 @@ const condition = ref({
 })
 const templateList = ref<Template[]>([])
 const selectedTemplate = ref()
+const selectAllOption = ref({
+  label: '全选',
+  value: 'select_all',
+  isSelectAll: true,
+})
+
+const selectOptions = computed(() => {
+  return [selectAllOption.value, ...nameList.value]
+})
 
 onMounted(async () => {
   init()
@@ -65,7 +74,7 @@ const reset = () => {
   condition.value.batchId = null
   condition.value.grade = null
   condition.value.status = null
-  formState.userIds = undefined
+  formState.userIds = [] as any[]
   formState.title = ''
   formState.content = ''
   formState.file = undefined
@@ -191,6 +200,26 @@ const resetTemplate = () => {
   formState.content = ''
   selectedTemplate.value = undefined
 }
+
+const selectAllUsers = () => {
+  if (nameList.value.length > 0)
+    formState.userIds = nameList.value.map((user: any) => user.value)
+}
+
+const handleUserSelectChange = (selectedValues: any) => {
+  if (Array.isArray(selectedValues)) {
+    // 检查是否包含全选选项
+    const hasSelectAll = selectedValues.includes('select_all')
+
+    if (hasSelectAll) {
+      // 如果选择了全选，则选中所有用户
+      selectAllUsers()
+    } else {
+      // 否则正常设置选中的用户
+      formState.userIds = selectedValues.filter((value: any) => value !== 'select_all')
+    }
+  }
+}
 </script>
 
 <template>
@@ -292,8 +321,13 @@ const resetTemplate = () => {
                 mode="multiple"
                 style="width: 100%"
                 placeholder="请选择用户"
-                :options="nameList"
-              />
+                :options="selectOptions"
+                @change="handleUserSelectChange"
+              >
+                <a-select-option :value="selectAllOption.value">
+                  {{ selectAllOption.label }}
+                </a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
 
